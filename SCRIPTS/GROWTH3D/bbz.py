@@ -92,6 +92,7 @@ E1, nu1 = 1, 0.48
 E2 = 20*E1
 E3 = 20*E1
 nu2=nu1
+nu3=nu1
 
 ## Elasticity parameters 1 BULK-0
 mu1, lda1 = Constant(E1/(2*(1 + nu1))), Constant(E1*nu1/((1 + nu1)*(1 - 2*nu1)))

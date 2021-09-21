@@ -1,0 +1,7 @@
+root@e4bfd3f92801:/home/fenics/shared/3LQI/test_Sep_21# python3 N3dmesh.py
+root@e4bfd3f92801:/home/fenics/shared/3LQI/test_Sep_21# ls
+N3dmesh.py  bbz.py  meshq.hdf5
+# make the running shorter by making shorter loop
+# update bbz.py at line
+#while t<T:
+# to #  while t<2*dt:
