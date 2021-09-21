@@ -29,7 +29,12 @@ cd /home/cal72/3LQI/
 
 # Way 1: run with 10 cores
 mpirun -n 10 python3 bbz.py
-# Way 2 (recommended): run non-interactively
+
+
+
+
+# Way 2 (recommended): without loading docker interacively but still on node16
+cal72@node16:~/3LQI/test_Sep_21$ nice nohup ./fenics "mpirun -n 10 python3 bbz.py" &
 nice nohup ./fenics "mpirun -n 10 python3 bbz.py" &
 # check result
 tail nohup.out

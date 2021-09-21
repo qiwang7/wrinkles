@@ -5,3 +5,24 @@ N3dmesh.py  bbz.py  meshq.hdf5
 # update bbz.py at line
 #while t<T:
 # to #  while t<2*dt:
+
+root@e4bfd3f92801:/home/fenics/shared/3LQI/test_Sep_21# cd ../github/wrinkles/
+root@e4bfd3f92801:/home/fenics/shared/3LQI/github/wrinkles# git pull
+#
+root@e4bfd3f92801:/home/fenics/shared/3LQI/github/wrinkles# cd ../../test_Sep_21/
+root@e4bfd3f92801:/home/fenics/shared/3LQI/test_Sep_21# cp ../github/wrinkles/SCRIPTS/GROWTH3D/* .
+root@e4bfd3f92801:/home/fenics/shared/3LQI/test_Sep_21# python3 bbz.py  # this take too long
+
+# under # root@e4bfd3f92801
+cd /home/fenics/shared/3LQI/test_Sep_21
+cp ../test/fenics .
+chmod a+r fenics
+chmod a+x fenics
+
+cd /home/fenics/shared/3LQI
+chmod a+w test_Sep_21/
+chmod a+x test_Sep_21/
+chmod a+r test_Sep_21/
+
+# under node16
+nice nohup .fenics "mpirun -n 10 python3 bbz.py" &
