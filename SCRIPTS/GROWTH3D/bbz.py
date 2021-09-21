@@ -90,6 +90,7 @@ B  = Constant((0.0, -0.0,0.0))  # Body force per unit volume
 # Elasticity parameters
 E1, nu1 = 1, 0.48
 E2 = 20*E1
+E3 = 20*E1
 nu2=nu1
 
 ## Elasticity parameters 1 BULK-0
