@@ -71,6 +71,8 @@ V = VectorFunctionSpace(mesh,"CG",1)
 
 Pz = Expression((0.0,0.0,"pz"),pz=0,degree=1)
 
+hpi=np.pi
+
 cl = Expression(("x0","ky*x[1]","R*(x[1])*(x[1]-z0)"),x0 = 0.0, ky = 0.0, z0=Ly,R=-0.00,degree=1)
 cr = Expression(("x0","ky*x[1]","R*(x[1])*(x[1]-z0)"),x0 = 0.0, ky = 0.0, z0=Ly,R=-0.00,degree=1)
 cs = Expression(("kx*x[0]","ky*x[1]","R*(x[1])*(x[1]-z0)"),kx= 0.0, ky = 0.0, z0=Ly,R=-0.00,degree=1)
@@ -239,7 +241,7 @@ while t<T:
     d2+=1.0*dt
     gfx+=1.0*dt
     gfy+=1.0*dt
-    gfz+=1.0*dt # add Z
+#    gfz+=1.0*dt # add Z
     if t<0.2:
         gsz+=0.1*dt
     if t<0.2:
@@ -248,7 +250,7 @@ while t<T:
     # growth film
     Fgf.dgnx = gfx
     Fgf.dgny = gfy
-    Fgf.dgnz = gfz # add z
+#    Fgf.dgnz = gfz # add z
 
     # grow substrate
     Fgs.dgn = gsz

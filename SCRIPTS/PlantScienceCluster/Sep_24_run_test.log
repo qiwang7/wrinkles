@@ -1,0 +1,20 @@
+cal72@node16:~/3LQI/github$ git clone https://github.com/qiwang7/wrinkles.git
+
+root@e4bfd3f92801:/home/fenics/shared/3LQI/test_Sep_24# cp ../github/wrinkles/SCRIPTS/GROWTH3D/* .
+
+#### under docker # root@e4bfd3f92801
+
+cd /home/fenics/shared/3LQI/test_Sep_24
+cp ../test/fenics .
+chmod a+r fenics
+chmod a+x fenics
+
+cd /home/fenics/shared/3LQI
+chmod a+w test_Sep_24/
+chmod a+x test_Sep_24/
+chmod a+r test_Sep_24/
+
+python3 N3dmesh.py
+
+##### under node16
+nice nohup .fenics "mpirun -n 10 python3 bbz.py" &
