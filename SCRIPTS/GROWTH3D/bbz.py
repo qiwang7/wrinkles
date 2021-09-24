@@ -14,8 +14,8 @@ Lz=0.1
 
 
 ###### define file and boudary surfaces - subdomains
-Ho=1.2*(Lz/Nz) # depth of the file
-dx1=Lx/10
+Ho=1.2*(Lz/Nz) # depth of the file ## thickness of the starting film
+dx1=Lx/10 # the boundary attachement
 
 ## read mesh setup file
 mesh = Mesh()
@@ -47,7 +47,9 @@ bmats << materials
 ## set the boundaries at the bottom and all the lateral surfaces
 left =  CompiledSubDomain("near(x[0], side) && on_boundary", side = 0.0)
 bott =  CompiledSubDomain("near(x[2], side) && on_boundary", side = 0.0)
+
 right = CompiledSubDomain("near(x[0], side) && on_boundary", side = Lx)
+
 southx= CompiledSubDomain("near(x[1], side) && on_boundary", side = 0.0)
 northx= CompiledSubDomain("near(x[1], side) && on_boundary", side = Ly)
 
@@ -71,9 +73,9 @@ Pz = Expression((0.0,0.0,"pz"),pz=0,degree=1)
 
 cl = Expression(("x0","ky*x[1]","R*(x[1])*(x[1]-z0)"),x0 = 0.0, ky = 0.0, z0=Ly,R=-0.00,degree=1)
 cr = Expression(("x0","ky*x[1]","R*(x[1])*(x[1]-z0)"),x0 = 0.0, ky = 0.0, z0=Ly,R=-0.00,degree=1)
-cb = Expression(("kx*x[0]","ky*x[1]","R*(x[1])*(x[1]-z0)"),kx= 0.0, ky = 0.0, z0=Ly,R=-0.00,degree=1)
 cs = Expression(("kx*x[0]","ky*x[1]","R*(x[1])*(x[1]-z0)"),kx= 0.0, ky = 0.0, z0=Ly,R=-0.00,degree=1)
 cn = Expression(("kx*x[0]","y0","R*(x[1])*(x[1]-z0)"),kx= 0.0, y0 = 0.0, z0=Ly,R=-0.00,degree=1)
+cb = Expression(("kx*x[0]","ky*x[1]","R*sin(k1*x[0])*sin(k2*x[1])"),kx= 0.0, ky = 0.0, k1=hpi/Lx,k2=hpi/Ly,R=-0.00,degree=1)
 
 bcl = DirichletBC(V, cl, left)
 bcr = DirichletBC(V, cr, right)
@@ -91,8 +93,8 @@ B  = Constant((0.0, -0.0,0.0))  # Body force per unit volume
 ##############
 # Elasticity parameters
 E1, nu1 = 1, 0.48
-E2 = 20*E1
-E3 = 20*E1
+#E2 = 20*E1
+E3 = 20*E1 # R0
 nu2=nu1
 nu3=nu1
 
@@ -237,14 +239,18 @@ while t<T:
     d2+=1.0*dt
     gfx+=1.0*dt
     gfy+=1.0*dt
+    gfz+=1.0*dt # add Z
     if t<0.2:
         gsz+=0.1*dt
     if t<0.2:
         muk+=0.1*dt
 
+    # growth film
     Fgf.dgnx = gfx
     Fgf.dgny = gfy
+    Fgf.dgnz = gfz # add z
 
+    # grow substrate
     Fgs.dgn = gsz
     Fgs.dgn2 = gsz
     Fgs.dgn3 = gfx
@@ -268,6 +274,7 @@ while t<T:
 
     bcsa =[bcr,bcl,bcb,bcn,bcs]
 
+    # absolute_tolerance difference between the last two steps to decide whether to stop
     solve(F == 0, u , bcsa, J=J, solver_parameters={"newton_solver":{"maximum_iterations":100,
                                                         "relative_tolerance": 1.0e-14,
                                                         "absolute_tolerance": 1.0e-6,"linear_solver": "mumps"}})

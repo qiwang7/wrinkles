@@ -26,3 +26,10 @@ chmod a+r test_Sep_21/
 
 # under node16
 nice nohup .fenics "mpirun -n 10 python3 bbz.py" &
+
+#===MONOSTRETCH
+cp ../github/wrinkles/SCRIPTS/MONOSTRETCH/*  .
+cp ../test/fenics .
+chmod a+x fenics
+chmod a+r fenics
+nice nohup ./fenics "mpirun -n 10 python3 slab.py" &
